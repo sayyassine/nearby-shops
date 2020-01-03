@@ -6,11 +6,19 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.css');
+
+
 import Vue from 'vue';
-import App from 'app.js' ;
+import App from '../templates/App.vue' ;
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import '../css/app.css';
+
+Vue.use(BootstrapVue);
 
 new Vue({
+    components: {App} ,
     el : "#app",
-    template : App
 });

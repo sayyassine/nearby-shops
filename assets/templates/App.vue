@@ -1,9 +1,15 @@
 <template>
-    <h1>{{message}}</h1>
+
 </template>
 
 <script>
+    import AppHeader from './AppHeader'
+    import AppFooter from './AppFooter'
+
     export default {
+        components : {
+            AppHeader , AppFooter
+        },
         name: "App",
         data : function () {
             return {
