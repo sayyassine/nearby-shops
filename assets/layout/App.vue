@@ -1,14 +1,19 @@
 <template>
-
+    <router-view></router-view>
 </template>
 
 <script>
-    import AppHeader from './AppHeader'
-    import AppFooter from './AppFooter'
+    import Login from '../components/Login'
+    import VueRouter from 'vue-router'
+    import routes from '../utils/routes'
+
+    const Router = new VueRouter({
+        routes
+    });
 
     export default {
         components : {
-            AppHeader , AppFooter
+            Router
         },
         name: "App",
         data : function () {
