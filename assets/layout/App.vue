@@ -1,7 +1,8 @@
+<!--The main component : displays child compoenents despending on the routing-->
+
 <template>
     <router-view></router-view>
 </template>
-
 <script>
 
     export default {
@@ -9,7 +10,6 @@
         name: "App",
         data : function () {
             return {
-                message: "Hello world."
             }
         }
     }

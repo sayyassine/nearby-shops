@@ -1,11 +1,15 @@
+{# App template : here is defined the main page layout (Vue components inside #app div), and all the files and scripts are linked in this template #}
+{# Rendered to an HTML page returned to the client #}
 <!DOCTYPE html>
 <html>
     <head>
         {% block stylesheets %}
+            {# all the builded (not js) files are added here by webpack encore #}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
+        {#the app container#}
         <div id="app">
             <app-header></app-header>
             <app></app>
@@ -13,6 +17,7 @@
         </div>
 
         {% block javascripts %}
+            {# all the builded javascript scripts are added here by webpack encore #}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </body>

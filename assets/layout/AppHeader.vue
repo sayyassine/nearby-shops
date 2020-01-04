@@ -1,3 +1,4 @@
+<!--The Page header : container the navigation and the profile box -->
 <template>
     <div>
     <b-card-header header-tag="nav">

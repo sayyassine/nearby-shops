@@ -1,13 +1,6 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
+/**
+ * App entry point
  */
-
-// any CSS you require will output into a single css file (app.css in this case)
-
-
 import Vue from 'vue';
 import Vuex from 'vuex'
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
@@ -22,17 +15,22 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../css/app.css';
 
 
-
+// loading the routes and using them
 const router = new VueRouter({
     routes
 });
 
-
-
+/*
+    Installing Vue Plugins
+    BootstrapVue : Boostrap for vuejs
+    Vuex : state store
+    VueRouter : Used for routing
+ */
 Vue.use(BootstrapVue);
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
+// creation of the store
 const store = new Vuex.Store({
     state: {
         logged_in: false
@@ -41,6 +39,7 @@ const store = new Vuex.Store({
     }
 });
 
+// Vue init
 new Vue({
     components: {App, AppHeader , AppFooter} ,
     store ,

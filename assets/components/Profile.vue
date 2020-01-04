@@ -1,3 +1,5 @@
+<!--The profile page accessed by the logged in user -->
+<!--Displays account informations-->
 <template>
     <b-card
             title="My Profile"

@@ -1,3 +1,6 @@
+<!--Login page holds the login form that permits the user to login-->
+<!--Holds the registration form too-->
+
 <template>
     <b-card
             title="Login Form"
