@@ -3,18 +3,9 @@
 </template>
 
 <script>
-    import Login from '../components/Login'
-    import VueRouter from 'vue-router'
-    import routes from '../utils/routes'
-
-    const Router = new VueRouter({
-        routes
-    });
 
     export default {
-        components : {
-            Router
-        },
+        components : {},
         name: "App",
         data : function () {
             return {

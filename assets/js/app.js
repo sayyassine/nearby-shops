@@ -14,14 +14,24 @@ import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import App from '../layout/App.vue' ;
 import AppHeader from '../layout/AppHeader'
 import AppFooter from '../layout/AppFooter'
+import VueRouter from 'vue-router'
+import routes from '../utils/routes'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../css/app.css';
 
 
+
+const router = new VueRouter({
+    routes
+});
+
+
+
 Vue.use(BootstrapVue);
 Vue.use(Vuex);
+Vue.use(VueRouter);
 
 const store = new Vuex.Store({
     state: {
@@ -34,5 +44,6 @@ const store = new Vuex.Store({
 new Vue({
     components: {App, AppHeader , AppFooter} ,
     store ,
+    router ,
     el : "#app",
 });

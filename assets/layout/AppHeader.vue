@@ -7,7 +7,6 @@
             <b-nav-item to="/profile" exact exact-active-class="active">Profile</b-nav-item>
         </b-nav>
     </b-card-header>
-    TEST
 
    </div>
 </template>
