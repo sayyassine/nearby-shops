@@ -8,6 +8,6 @@ This is a single page application offering to user to find stores nearby
 * [Node.js](https://nodejs.org/) - A JavaScript runtime used for building assets
 * [npm](https://npmjs.org/) - NodeJs Packet Manager
 
-##Getting Started
+## Getting Started
 
 Project still under developpement, will be available soon.
