@@ -28,13 +28,19 @@ Vue.use(VueRouter);
 const store = new Vuex.Store({
 
     state: {
-        user : null ,
+        user :null // {"email" : "test@test.com"} ,
     },
     getters: {
         //returns if the user user is logged in or not
         is_logged_in : state => state.user !== null ,
         user_email : (state,getters) => ! (getters.is_logged_in) ?  null : state.user.email
 
+    },
+    mutations: {
+        logout (state) {
+            // mutate state
+            state.user = null
+        }
     }
 });
 

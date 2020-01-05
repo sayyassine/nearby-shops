@@ -21,8 +21,8 @@
                         <template v-slot:button-content  >
                             <em>{{user_email}}</em>
                         </template>
-                        <b-dropdown-item href="profile">Profile</b-dropdown-item>
-                        <b-dropdown-item href="singout">Sign Out</b-dropdown-item>
+                        <b-dropdown-item to="/profile">Profile</b-dropdown-item>
+                        <b-dropdown-item v-on:click="logout">Sign Out</b-dropdown-item>
 
                     </b-nav-item-dropdown>
                     <b-nav-item v-else to="/login">Login</b-nav-item>
@@ -42,6 +42,12 @@
             },
             user_email() {
                 return this.$store.getters.user_email
+            }
+        },
+        methods : {
+            logout(){
+                this.$store.commit('logout');
+                this.$router.push('login');
             }
         }
     }

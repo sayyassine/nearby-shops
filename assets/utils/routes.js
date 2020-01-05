@@ -54,7 +54,7 @@ export default store => [
     },{
         path: "/register",
         name: "register",
-        component: Login,
+        component: Register,
         beforeEnter: (to, from, next) => {
             if (store.getters.is_logged_in === true ) {
                 next("profile");
