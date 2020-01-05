@@ -1,4 +1,4 @@
-<!--The main component : displays child compoenents despending on the routing-->
+<!-- The main component : displays child compoenents despending on the routing -->
 
 <template>
     <router-view></router-view>

@@ -1,4 +1,5 @@
-<!--All the stores are listed here ordered by the distance to the user-->
+<!-- Displays the stores liked by the users -->
+
 <template>
     
 </template>

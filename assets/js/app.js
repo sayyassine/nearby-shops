@@ -14,12 +14,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../css/app.css';
 
-
-// loading the routes and using them
-const router = new VueRouter({
-    routes
-});
-
 /*
     Installing Vue Plugins
     BootstrapVue : Boostrap for vuejs
@@ -42,6 +36,13 @@ const store = new Vuex.Store({
         user_email : (state,getters) => ! (getters.is_logged_in) ?  null : state.user.email
 
     }
+});
+
+
+// loading the routes and using them
+// passing the store to the routes to check user permissions before redirecting him
+const router = new VueRouter({
+    routes : routes(store)
 });
 
 // Vue init

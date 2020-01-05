@@ -8,8 +8,8 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="stores">Stores</b-nav-item>
-                    <b-nav-item href="my_stores" v-if="is_logged_in">My Stores</b-nav-item>
+                    <b-nav-item to="/stores">Stores</b-nav-item>
+                    <b-nav-item to="/my-stores" v-if="is_logged_in">My Stores</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
