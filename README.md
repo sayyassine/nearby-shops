@@ -1,5 +1,5 @@
 # Nearby Shops
-This is a single page application offering to user to find stores nearby
+This is a single page application built with Symfony and Vue. Offering to users to find stores nearby
 ## Built With
 
 * [Symfony](https://symfony.com/) - PHP web framework used
