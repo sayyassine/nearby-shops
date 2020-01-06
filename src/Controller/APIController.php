@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use phpDocumentor\Reflection\Location;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+
 /**
  * Class APIController
  * @package App\Controller
+ * @IsGranted("ROLE_USER")
  */
 class APIController extends AbstractController
 {
 
     /**
-     * @Route("/api/stores/" , name="get_stores")
+     * @Route("/api/stores/" , name="get_stores")/**
+     *
      * Requires ROLE_USER (X_HTTP_TOKEN)
      * methods: {GET, POST}
      * parameters: {

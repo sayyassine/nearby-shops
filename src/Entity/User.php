@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -38,6 +40,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $apiToken;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Store")
+     */
+    private $liked_stores;
+
+    public function __construct()
+    {
+        $this->liked_stores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,6 +137,32 @@ class User implements UserInterface
     public function setApiToken(?string $apiToken): self
     {
         $this->apiToken = $apiToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Store[]
+     */
+    public function getLikedStores(): Collection
+    {
+        return $this->liked_stores;
+    }
+
+    public function addLikedStore(Store $likedStore): self
+    {
+        if (!$this->liked_stores->contains($likedStore)) {
+            $this->liked_stores[] = $likedStore;
+        }
+
+        return $this;
+    }
+
+    public function removeLikedStore(Store $likedStore): self
+    {
+        if ($this->liked_stores->contains($likedStore)) {
+            $this->liked_stores->removeElement($likedStore);
+        }
 
         return $this;
     }
