@@ -22,7 +22,7 @@
         "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.1.0",
         "es6-promise": "^4.2.8",
-        "jquery": "^1.12.4",
+        "jquery": "^3.4.0",
         "vue": "^2.6.11",
         "vue-plugin-axios": "^1.0.14",
         "vue-router": "^3.1.3",
