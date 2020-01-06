@@ -37,8 +37,6 @@ let store = new Vuex.Store({
         },
         login (state ,user) {
 
-            console.log(user);
-            console.log("user_connected");
             state.user = user ;
             /**
              * user { email , token }
@@ -49,7 +47,7 @@ let store = new Vuex.Store({
 
 
 /*
-    Installing Vue Plugins
+    Installing Vue Plugins on vue
     BootstrapVue : Bootstrap for vuejs
     Vuex : state store
     VueRouter : Used for routing
@@ -57,7 +55,7 @@ let store = new Vuex.Store({
  */
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
-// the second parameter is an object containing the axios object and requests configuration
+// the second parameter an object containing the axios object and requests configuration
 Vue.use(VueAxios,configured_axios(store));
 
 
