@@ -66,6 +66,7 @@
                     password :''
                 },
                 login_error : '' ,
+                loading : false
             }
         },
         methods : {
@@ -74,24 +75,24 @@
                 this.loading = true ;
 
                 this.$post("/login",{
-                    data : this.form
+                    ...this.form
                 }).then(function (response) {
-                    if(response.data.success && response.data.user ){
-                        this.$store.commit("login" , user );
+                    if(response.success && response.user ){
+                        alert(response.user)
+                        this.$store.commit("login" , response.user );
                         this.$router.push("/stores")
-                    }else if(response.data.error){
-                        this.login_error = response.data.error
+                    }else if(response.error){
+                        this.login_error = response.error
                     }else {
                         this.login_error = "Login failed."
                     }
 
                     this.loading = false
-                }).finally(
+                }.bind(this)).finally(
                     function () {
                         this.loading = false
-                    }
+                    }.bind(this)
                 );
-                alert(JSON.stringify(this.form))
             },
             onReset(evt) {
                 evt.preventDefault();

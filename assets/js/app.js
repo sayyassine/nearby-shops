@@ -21,12 +21,12 @@ Vue.use(Vuex);
 let store = new Vuex.Store({
 
     state: {
-        user :null ,// {"email" : "test@test.com"} ,
+        user : {} ,// {"email" : "test@test.com"} ,
 
     },
     getters: {
         //used to check if the user user is logged in or not
-        is_logged_in : state => state.user !== null ,
+        is_logged_in : state => !(Object.entries(state.user).length === 0 && state.user.constructor === Object),
         //getter for the email user
         user_email : (state,getters) => ! (getters.is_logged_in) ?  null : state.user.email
     },
@@ -36,7 +36,10 @@ let store = new Vuex.Store({
             state.user = null
         },
         login (state ,user) {
-            this.user = user
+
+            console.log(user);
+            console.log("user_connected");
+            state.user = user ;
             /**
              * user { email , token }
              */
