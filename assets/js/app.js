@@ -11,6 +11,7 @@ import VueRouter from 'vue-router'
 import VueAxios from 'vue-plugin-axios'
 import routes from '../utils/routes'
 import configured_axios from '../utils/axios'
+import model from '../store/model'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -18,33 +19,7 @@ import '../css/app.css';
 
 // creation of the store
 Vue.use(Vuex);
-let store = new Vuex.Store({
-
-    state: {
-        user : {} ,// {"email" : "test@test.com"} ,
-
-    },
-    getters: {
-        //used to check if the user user is logged in or not
-        is_logged_in : state => !(Object.entries(state.user).length === 0 && state.user.constructor === Object),
-        //getter for the email user
-        user_email : (state,getters) => ! (getters.is_logged_in) ?  null : state.user.email
-    },
-    mutations: {
-        //
-        logout (state) {
-            state.user = null
-        },
-        login (state ,user) {
-
-            state.user = user ;
-            /**
-             * user { email , token }
-             */
-        }
-    }
-});
-
+let store = new Vuex.Store(model);
 
 /*
     Installing Vue Plugins on vue
