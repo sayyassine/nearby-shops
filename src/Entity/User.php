@@ -46,9 +46,15 @@ class User implements UserInterface
      */
     private $liked_stores;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StoreDislike", mappedBy="user", orphanRemoval=true , cascade={"persist" , "remove"})
+     */
+    private $disliked_stores;
+
     public function __construct()
     {
         $this->liked_stores = new ArrayCollection();
+        $this->disliked_stores = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,5 +171,58 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|StoreDislike[]
+     */
+    public function getDislikedStores(): Collection
+    {
+        return $this->disliked_stores;
+    }
+
+    public function addDislikedStore(StoreDislike $dislikedStore): self
+    {
+        if (!$this->disliked_stores->contains($dislikedStore) && !$this->hasDisliked($dislikedStore->getStore())) {
+            $this->disliked_stores[] = $dislikedStore;
+            $dislikedStore->setUser($this);
+            $dislikedStore->setDislikeDate(new \DateTimeImmutable());
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedStore(StoreDislike $dislikedStore): self
+    {
+        if ($this->disliked_stores->contains($dislikedStore)) {
+            $this->disliked_stores->removeElement($dislikedStore);
+            // set the owning side to null (unless already changed)
+            if ($dislikedStore->getUser() === $this) {
+                $dislikedStore->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * checks if the store is in the dislike list.
+     * performing a simple check on the dislikes list since $disliked_store is a collection of StoreDislike Objects.
+     * Which are used to to store the time of the dislike so it can be removed after a defined amount of time.
+     **/
+    public function hasDisliked(Store $store){
+        return $this->disliked_stores->exists(function($key , $element) use ($store) { return $store->getId() === $element->getId() ;} );
+    }
+
+    public function getDislike(Store $store){
+        $res = $this->disliked_stores->filter(function ($element) use ($store) {return $element->getId() === $store->getId();}) ;
+        return empty($res) ? null : $res[0] ;
+    }
+
+    public function removeDislike(Store $store){
+
+        $dislike = $this->getDislike($store);
+        if($store)
+            $this->removeDislikedStore($dislike);
     }
 }

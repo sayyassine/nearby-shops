@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Store;
+use App\Entity\StoreDislike;
 use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\Location;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,6 +25,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
@@ -229,6 +231,7 @@ class APIController extends AbstractController
             "error_message" => ""
         ];
 
+        //serializing response
         $jsonObject = $serializer->serialize( $response, 'json', [
             AbstractNormalizer::CALLBACKS => [
                 'type' => function ($innerObject) {
@@ -244,5 +247,91 @@ class APIController extends AbstractController
     }
 
 
+
+    /**
+     *
+     * @Route("/api/stores/dislike/{store}" , name="dislike_store")
+     * @param Store $store
+     * @return JsonResponse
+     */
+    public function dislike_store(Store $store){
+
+        if( !$store ) {
+            return $this->json(['error'=> true , "error_message" => "Store invalid or not existing" , Response::HTTP_NOT_FOUND ]);
+        }
+
+        //creating a StoreDislike Object and setting the actual date before persisting
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $dislike = new StoreDislike();
+        $dislike->setStore($store);
+        $user->addDislikedStore($dislike);
+
+        //in case the user has liked this store we remove it from his likes list
+        $user->removeLikedStore($store);
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->json(['error' => false, 'error_message' => ""] );
+    }
+
+    /**
+     *
+     * @Route("/api/stores/remove-disliked/{store}" ,name="remove_disliked_store")
+     * @param Store $store
+     * @return JsonResponse
+     */
+    public function remove_disliked_store(Store $store){
+
+        if( !$store ) {
+            return $this->json(['error'=> true , "error_message" => "Store invalid or not existing" , Response::HTTP_NOT_FOUND ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+        //calling the helper function to find the dislike object matching the store before deleting it
+        $user->removeDislike($store);
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->json(['error' => false, 'error_message' => ""] );
+    }
+
+
+    /**
+     * @Route("/api/stores/disliked" ,name="get_disliked_store")
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function get_disliked_store(){
+
+        $dislike_list = $this->getUser()->getDislikedStores() ;
+
+        //removing out of date dislikes
+        foreach ($dislike_list as $dislike){
+            /**
+             * TODO make dislike out of date threshold dynamic (each user can specify how humch time he doesn't want to see the disliked stores)
+             * if($dislike->getDislikeDate() > new \DateTimeImmutable($this->getUser()->getDislikeTime()){
+             **/
+            if($dislike->getDislikeDate() < new \DateTimeImmutable("-2 hours")){
+                $this->getUser()->removeDislikeStore($dislike);
+            }
+        }
+
+        //Preparing result and serialization context
+        $results = ['error' => false, 'error_message' => "" ,"stores" => $this->getUser()->getDislikedStores()] ;
+        $serialization_context = [
+            AbstractNormalizer::CALLBACKS => [
+                'store' => function($store) {return $store->getId();},
+                'user' => function($store) {return $store->getId();}
+            ],
+        ];
+
+
+        return $this->json( $results , 200 , [] , $serialization_context  );
+    }
 
 }
