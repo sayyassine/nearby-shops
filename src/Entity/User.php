@@ -207,22 +207,25 @@ class User implements UserInterface
 
     /**
      * checks if the store is in the dislike list.
-     * performing a simple check on the dislikes list since $disliked_store is a collection of StoreDislike Objects.
+     * we can't performing a simple check on the dislikes list since $disliked_store is a collection of StoreDislike Objects.
      * Which are used to to store the time of the dislike so it can be removed after a defined amount of time.
-     **/
+     * @param Store $store
+     * @return bool
+     */
     public function hasDisliked(Store $store){
         return $this->disliked_stores->exists(function($key , $element) use ($store) { return $store->getId() === $element->getId() ;} );
     }
 
     public function getDislike(Store $store){
-        $res = $this->disliked_stores->filter(function ($element) use ($store) {return $element->getId() === $store->getId();}) ;
-        return empty($res) ? null : $res[0] ;
+        $res = $this->disliked_stores->filter(function ($element) use ($store) {return $element->getStore()->getId() === $store->getId();}) ;
+
+        return $res->count() === 0 ? null : $res->first() ;
     }
 
     public function removeDislike(Store $store){
 
         $dislike = $this->getDislike($store);
-        if($store)
+        if($dislike)
             $this->removeDislikedStore($dislike);
     }
 }

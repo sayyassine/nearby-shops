@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Store;
 use App\Entity\StoreDislike;
+use App\Entity\StoreType;
 use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\Location;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -332,6 +333,21 @@ class APIController extends AbstractController
 
 
         return $this->json( $results , 200 , [] , $serialization_context  );
+    }
+
+
+    /**
+     * Returns all store types
+     * @Route("/api/stores/types" , name="get_store_types")
+     */
+    public function get_store_types(){
+        $em = $this->getDoctrine()->getManager();
+        $types = $em->getRepository(StoreType::class)->findAll();
+
+        $serialization_context = [
+            AbstractNormalizer::ATTRIBUTES => ['id','name']
+        ];
+        return $this->json(["types"=>$types ,"error" => false] , Response::HTTP_OK , [] , $serialization_context);
     }
 
 }
