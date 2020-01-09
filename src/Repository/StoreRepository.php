@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Store;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @method Store|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,40 @@ class StoreRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findNearest($longitude , $latitude , $start = 0 , $limit = 20 , $type = null , $radius = null ){
+
+        $builder = $this->createQueryBuilder('s')
+            ->select("s as store")
+            ->addSelect(
+                '( 3959 * acos(cos(radians(' . $latitude . '))' .
+                '* cos( radians( s.latitude ) )' .
+                '* cos( radians( s.longitude )' .
+                '- radians(' . $longitude . ') )' .
+                '+ sin( radians(' . $latitude . ') )' .
+                '* sin( radians( s.latitude ) ) ) ) as distance'
+            )
+            ->orderBy('distance', 'ASC')
+            ->setFirstResult($start)
+            ->setMaxResults($limit)
+        ;
+
+
+        if( !empty($type) ){
+
+            $builder->andWhere('s.type = :type')
+                ->setParameter('type' , $type);
+
+        }
+
+        if( !empty($radius) ){
+
+            $builder->having('distance <= :distance')
+                ->setParameter('distance' , $radius );
+
+        }
+
+        return $builder->getQuery()->getResult(Query::HYDRATE_OBJECT);
+
+    }
 }
