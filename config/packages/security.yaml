@@ -26,6 +26,16 @@ security:
                 - App\Security\LoginFormAuthenticator
                 entry_point: App\Security\TokenAuthenticator
 
+        admin_api:
+            pattern: ^/admin/api/
+            anonymous: ~
+            logout: ~
+            guard:
+                authenticators:
+                - App\Security\TokenAuthenticator
+                - App\Security\LoginFormAuthenticator
+                entry_point: App\Security\TokenAuthenticator
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
