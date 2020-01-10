@@ -37,7 +37,6 @@ export default {
          * ...
          */
     ] ,
-
     //a list of liked stores ids
     liked_stores : [
         /**
@@ -45,9 +44,8 @@ export default {
          * integer
          */
     ],
-
     // a list of liked stores ids
-    unliked_stores : [
+    disliked_stores : [
         /**
          * empty if no user connected
          * integer

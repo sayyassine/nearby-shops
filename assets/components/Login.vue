@@ -78,9 +78,16 @@
                     ...this.form
                 }).then(function (response) {
                     if(response.success && response.user ){
-                        alert(response.user)
                         this.$store.commit("login" , response.user );
-                        this.$router.push("/stores")
+
+                        this.$post("/stores/liked").then(
+                            function (response) {
+                                if(!response.error)
+                                    this.$store.commit("add_liked_stores", response.stores);
+                                this.$router.push("/stores")
+                            }.bind(this)
+                        )
+
                     }else if(response.error){
                         this.login_error = response.error
                     }else {

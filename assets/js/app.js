@@ -3,7 +3,12 @@
  */
 import Vue from 'vue';
 import Vuex from 'vuex'
+import createLogger from 'vuex/dist/logger'
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHeart, faThumbsDown  } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from '../layout/App.vue' ;
 import AppHeader from '../layout/AppHeader'
 import AppFooter from '../layout/AppFooter'
@@ -17,9 +22,20 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../css/app.css';
 
+
+let plugins = [];
+if(process.env.NODE_ENV === "development"){
+    plugins.push(createLogger()) ;
+}
+
+//adding fontawesome icons
+library.add(faHeart , faHeartRegular, faThumbsDown ,faThumbsDownRegular);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+
 // creation of the store
 Vue.use(Vuex);
-let store = new Vuex.Store(model);
+let store = new Vuex.Store({...model , plugins});
 
 /*
     Installing Vue Plugins on vue

@@ -8,4 +8,14 @@ export default {
     //getter for the liked stores count
     liked_stores_count : (states, getters) => !(getters.is_logged_in) ? 0 : states.liked_stores.length ,
 
+    //check if a store is in the like list
+    is_liked : (state) => (store_id) => {
+        return state.liked_stores.includes(""+store_id);
+    },
+
+    //check if a store is in the dislike list
+    is_disliked : (state) => (store_id) => {
+        return state.disliked_stores.includes(""+store_id);
+    }
+
 }
