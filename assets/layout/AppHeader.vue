@@ -8,8 +8,8 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item to="/stores">Stores</b-nav-item>
-                    <b-nav-item to="/my-stores" v-if="is_logged_in">My Stores</b-nav-item>
+                    <b-nav-item to="/stores"><font-awesome-icon icon="store"/> Stores</b-nav-item>
+                    <b-nav-item to="/my-stores" v-if="is_logged_in"><font-awesome-icon icon="heart"/> My stores</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
@@ -25,7 +25,7 @@
                         <b-dropdown-item v-on:click="logout">Sign Out</b-dropdown-item>
 
                     </b-nav-item-dropdown>
-                    <b-nav-item v-else to="/login">Login</b-nav-item>
+                    <b-nav-item v-else to="/login"><font-awesome-icon icon="sign-in-alt" /> Login</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>

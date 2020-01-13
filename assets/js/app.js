@@ -6,8 +6,8 @@ import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeart, faThumbsDown  } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as faHeartRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons'
+import { faHeart, faThumbsDown ,faFilter, faMapPin ,faStore ,faSignInAlt} from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular, faThumbsDown as faThumbsDownRegular ,  } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from '../layout/App.vue' ;
 import AppHeader from '../layout/AppHeader'
@@ -29,7 +29,7 @@ if(process.env.NODE_ENV === "development"){
 }
 
 //adding fontawesome icons
-library.add(faHeart , faHeartRegular, faThumbsDown ,faThumbsDownRegular);
+library.add(faHeart , faHeartRegular, faThumbsDown ,faThumbsDownRegular ,faFilter ,faMapPin ,faStore,faSignInAlt);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 

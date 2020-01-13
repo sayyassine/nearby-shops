@@ -109,16 +109,17 @@ class APIController extends AbstractController
         $stores_repository = $this->getDoctrine()->getRepository(Store::class);
         $results_array = $stores_repository->findNearest($location->long,$location->lat,$start , $limit,$type , $radius );
 
-        //Prepapring the response object  query
-        //$stores = $result_arrays  ;
-        $stores_count = count($results_array );
+        //Getting results count
+        $stores_count = $stores_repository->findNearestCount($location->long,$location->lat,$type , $radius );
+
+        //Preparing the response object  query
         $error = false ;
         $error_message = "" ;
 
 
         $response = [
             'stores' => $results_array ,
-            'stores_count' => $stores_count,
+            'stores_count' => $stores_count ,
             'error' => $error ,
             "error_message" => $error_message
         ];

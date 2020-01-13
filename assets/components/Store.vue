@@ -1,35 +1,38 @@
 <!-- components that displays one store -->
 <template>
-    <b-card
-        :title="object.name"
-        :img-src="object.picture ? object.picture  : '/images/stores/default.jpg'"
-        img-class="w-50"
-        img-alt="Store Image"
-        img-top
-        class="store d-inline-block mr-4"
-        body-class="p-2"
+    <div class="col-md-3 col-sm-6 col-xs-6 p-2">
+        <b-card
+                :title="object.name"
+                :sub-title="object.type.name"
+                :img-src="object.picture ? object.picture  : '/images/stores/default.png'"
+                img-class="w-50"
+                img-alt="Store Image"
+                img-top
+                class="store d-inline-block w-100"
+                body-class="pt-1"
 
 
-    >
-        <b-card-text>
-            <div>
-                Type : {{ object.type.name }}<br/>
-                Distance : {{ distance }} km
-            </div>
-        </b-card-text>
-        <template v-slot:footer>
-            <div class="d-flex justify-content-around">
+        >
+            <b-card-text>
                 <div>
-                    <font-awesome-icon style="cursor: pointer" color="red" v-if="is_liked" :icon="['fas' ,'heart']" @click="unlike_store"/>
-                    <font-awesome-icon style="cursor: pointer" v-else :icon="['far' ,'heart']" @click="like_store"/>
+                    <font-awesome-icon icon="map-pin"></font-awesome-icon> {{ two_decimals(distance) }} km
                 </div>
-                <div>
-                    <font-awesome-icon style="cursor: pointer" color="orange" v-if="is_disliked" :icon="['fas' ,'thumbs-down']" @click="undislike_store"/>
-                    <font-awesome-icon style="cursor: pointer" v-else :icon="['far' ,'thumbs-down']" @click="dislike_store"/>
+            </b-card-text>
+            <template v-slot:footer v-if="is_logged_in">
+                <div class="d-flex justify-content-around" >
+                    <div>
+                        <font-awesome-icon style="cursor: pointer" color="red" v-if="is_liked" :icon="['fas' ,'heart']" @click="unlike_store"/>
+                        <font-awesome-icon style="cursor: pointer" v-else :icon="['far' ,'heart']" @click="like_store"/>
+                    </div>
+                    <div>
+                        <font-awesome-icon style="cursor: pointer" color="orange" v-if="is_disliked" :icon="['fas' ,'thumbs-down']" @click="undislike_store"/>
+                        <font-awesome-icon style="cursor: pointer" v-else :icon="['far' ,'thumbs-down']" @click="dislike_store"/>
+                    </div>
                 </div>
-            </div>
-        </template>
-    </b-card>
+            </template>
+        </b-card>
+    </div>
+
 </template>
 
 <script>
@@ -45,6 +48,12 @@
             },
             is_disliked(){
                 return this.$store.getters.is_disliked(this.object.id);
+            },
+            two_decimals(){
+                return (n) => Math.round(n*100)/100;
+            },
+            is_logged_in(){
+                return this.$store.getters.is_logged_in;
             }
         },
         methods : {
@@ -106,6 +115,6 @@
 
 <style scoped>
     .store{
-        width: 200px;
+
     }
 </style>

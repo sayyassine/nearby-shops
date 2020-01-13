@@ -68,6 +68,37 @@ class StoreRepository extends ServiceEntityRepository
 
 
         if( !empty($type) ){
+            $builder->andWhere('s.type = :type')
+                ->setParameter('type' , $type);
+        }
+
+        if( !empty($radius) ){
+
+            $builder->having('distance <= :distance')
+                ->setParameter('distance' , $radius );
+
+        }
+
+        return $builder->getQuery()->getResult(Query::HYDRATE_OBJECT);
+
+    }
+    public function findNearestCount($longitude , $latitude , $type = null , $radius = null ){
+
+        $builder = $this->createQueryBuilder('s')
+            ->addSelect(
+                '( 3959 * acos(cos(radians(' . $latitude . '))' .
+                '* cos( radians( s.latitude ) )' .
+                '* cos( radians( s.longitude )' .
+                '- radians(' . $longitude . ') )' .
+                '+ sin( radians(' . $latitude . ') )' .
+                '* sin( radians( s.latitude ) ) ) ) as distance'
+            )
+            ->orderBy('distance', 'ASC')
+
+        ;
+
+
+        if( !empty($type) ){
 
             $builder->andWhere('s.type = :type')
                 ->setParameter('type' , $type);
@@ -81,7 +112,11 @@ class StoreRepository extends ServiceEntityRepository
 
         }
 
-        return $builder->getQuery()->getResult(Query::HYDRATE_OBJECT);
+        $count = count($builder->getQuery()->getResult(Query::HYDRATE_OBJECT));
+
+        return $count ;
 
     }
+
+
 }
