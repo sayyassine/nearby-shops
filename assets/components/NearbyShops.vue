@@ -14,7 +14,7 @@
                     </h1>
 
                     <div class="d-flex">
-
+                        <!--filtering form-->
                         <b-dropdown id="dropdown-form" variant="primary" dropleft ref="dropdown" class="m-2">
                             <template v-slot:button-content>
                                 <font-awesome-icon icon="filter" /><span class="sr-only">Search</span>
@@ -59,9 +59,11 @@
             </b-card-header>
             <div class="container px-5 pb-3">
 
+
                 <div class="alert alert-warning mt-3" v-if="gettingLocation" >Getting location ... </div>
                 <div class="alert alert-danger mt-3" v-else-if="location === null" ><b>We couldn't get your location</b> : {{ errorStr }}</div>
 
+                <!--filters display-->
                 <div class="row flex-row-reverse mb-2 text-muted align-items-center pt-2 font-weight-light" v-if="applied_filters !== null">
 
                     <div class="border border-secondary mr-2 mb-0 rounded px-1 text-muted" v-if="applied_filters !== null">
@@ -79,6 +81,8 @@
                 <div class="row">
                     <store :object="st.store" :distance="st.distance" :key="st.id" v-for="st in stores" >
                     </store>
+
+                    <!--error page-->
                     <div class="d-flex justify-content-center align-items-center" v-if="!loading && no_stores" >
                         <img src="/images/nothing_found.gif" class="mw-50">
                         <div>
@@ -95,6 +99,7 @@
             </div>
 
             <b-card-footer class="m-0 p-2 px-4">
+                <!--pagination box-->
                 <div class="row d-flex justify-content-center align-items-center">
                     <b-button :class="['btn','btn-sm', (page === p ? 'btn-outline-success' :'btn-success') , 'mx-1' ]"
                               v-for="p in pages" :key="p" :disabled="page === p"
@@ -135,11 +140,14 @@
                 this.$axios.post("/stores" ,data ).then(
                     response => {
                         if(!response.data.error){
+                            //loading results
                             this.stores = response.data.stores ;
+
+                            //used in filtering
                             this.results_count = parseInt(response.data.stores_count);
 
+                            //storing last filters applied to be display filters
                             this.applied_filters = {} ;
-
                             this.applied_filters['type'] = this.store_types.find(e => e.id === this.type);
                             this.applied_filters['item_per_page'] = this.item_per_page ;
                             this.applied_filters['start'] = (this.page-1) * this.item_per_page;
@@ -153,22 +161,30 @@
         },
         data : function () {
             return {
+                //object containing last applied filter values
                 applied_filters : null ,
                 loading : false ,
                 errorStr : "" ,
                 location : null ,
                 gettingLocation : false ,
+                // list of stroes
                 stores : [] ,
+                // current page
                 page : 1 ,
                 item_per_page : 20,
+                // count of all the results matching the filter (used to calculate page count)
                 results_count : 0,
+                //store type filter value
                 type : 0,
+                //list of all store types (used in filtering)
                 store_types : [],
+                //Maximal search distance
                 max_distance : null
             }
         },
         created() {
 
+            //Loading store types
             this.$axios.get("/stores/types").then(function(response){
                 this.store_types = response.data.types ;
             }.bind(this));
@@ -179,8 +195,8 @@
                 return;
             }
 
-            this.gettingLocation = true;
             // get position
+            this.gettingLocation = true;
             navigator.geolocation.getCurrentPosition(pos => {
                 this.errorStr = false;
                 this.location = {
@@ -197,6 +213,7 @@
 
         },
         computed : {
+            // calculate page count
             pages () {
                 let pages = [] ;
                 let i = 1 ;
@@ -210,9 +227,11 @@
 
                 return pages ;
             },
+            // true if no results found
             no_stores(){
                 return !this.stores || this.stores.length === 0
             },
+            // calculate the count of stores displayed actually
             results_in_page(){
                 let start = parseInt(this.applied_filters.start),
                     results_count = parseInt(this.applied_filters.results_count),

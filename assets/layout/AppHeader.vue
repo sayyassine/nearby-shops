@@ -12,12 +12,10 @@
                     <b-nav-item to="/my-stores" v-if="is_logged_in"><font-awesome-icon icon="heart"/> My stores</b-nav-item>
                 </b-navbar-nav>
 
-                <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
 
 
                     <b-nav-item-dropdown right v-if="is_logged_in">
-                        <!-- Using 'button-content' slot -->
                         <template v-slot:button-content  >
                             <em>{{user_email}}</em>
                         </template>

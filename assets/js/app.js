@@ -3,6 +3,7 @@
  */
 import Vue from 'vue';
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import createLogger from 'vuex/dist/logger'
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -22,8 +23,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../css/app.css';
 
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage
+});
 
-let plugins = [];
+let plugins = [vuexLocal.plugin];
 if(process.env.NODE_ENV === "development"){
     plugins.push(createLogger()) ;
 }

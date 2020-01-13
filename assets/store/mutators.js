@@ -1,7 +1,9 @@
 export default {
     // remove the logged out user from the state
     logout (state) {
-        state.user = null
+        state.user = null;
+        state.liked_stores = [];
+        state.disliked_stores = [];
     },
     // adds the logged in user to the state
     login (state ,user) {

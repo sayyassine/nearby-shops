@@ -22,3 +22,7 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+
+###API keys###
+/assets/config/keys.js

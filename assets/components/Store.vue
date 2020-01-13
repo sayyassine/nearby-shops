@@ -1,4 +1,5 @@
 <!-- components that displays one store -->
+<!-- liking/unliking/disliking/"undislikin" is implemented here -->
 <template>
     <div class="col-md-3 col-sm-6 col-xs-6 p-2">
         <b-card
@@ -14,7 +15,7 @@
 
         >
             <b-card-text>
-                <div>
+                <div v-if="distance !== null">
                     <font-awesome-icon icon="map-pin"></font-awesome-icon> {{ two_decimals(distance) }} km
                 </div>
             </b-card-text>
@@ -43,20 +44,23 @@
             "distance",
         ],
         computed : {
+            //state mapping
             is_liked(){
                 return this.$store.getters.is_liked(this.object.id);
             },
             is_disliked(){
                 return this.$store.getters.is_disliked(this.object.id);
             },
+            is_logged_in(){
+                return this.$store.getters.is_logged_in;
+            },
+            //format decimals to two digits
             two_decimals(){
                 return (n) => Math.round(n*100)/100;
             },
-            is_logged_in(){
-                return this.$store.getters.is_logged_in;
-            }
         },
         methods : {
+
             like_store(){
                 //sends a request to the backend to persist stored store
                 //adds the liked store to like list in the state
@@ -64,6 +68,7 @@
                     function (response){
                         if(!response.error){
                             this.$store.commit("like_store" , this.object.id);
+                            this.$emit("like");
                         }
                     }.bind(this)
                 );
@@ -75,7 +80,8 @@
                 this.$axios.post("/stores/remove-liked/" + this.object.id).then(
                 function (response){
                     if(!response.error){
-                        this.$store.commit("unlike_store" , this.object.id)
+                        this.$store.commit("unlike_store" , this.object.id);
+                        this.$emit("unlike");
                     }
                 }.bind(this)
             );
@@ -89,7 +95,8 @@
                 this.$axios.post("/stores/dislike/" + this.object.id).then(
                     function (response){
                         if(!response.error){
-                            this.$store.commit("dislike_store" , this.object.id)
+                            this.$store.commit("dislike_store" , this.object.id);
+                            this.$emit("dislike");
                         }
                     }.bind(this)
                 );
@@ -101,7 +108,8 @@
                 this.$axios.post("/stores/remove-disliked/" + this.object.id).then(
                 function (response){
                     if(!response.error){
-                        this.$store.commit("undislike_store" , this.object.id)
+                        this.$store.commit("undislike_store" , this.object.id);
+                        this.$emit("undislike");
                     }
                 }.bind(this)
             );
