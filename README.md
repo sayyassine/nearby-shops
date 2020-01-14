@@ -52,10 +52,36 @@ Create a local config configuration file .env.local where you add your local dat
 DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7
 ```
 
-Since the project is still under developement you may need to rebuild the assets using npm
+Create a local file where your can put you google map api key under assets/config/keys.js with the following
+```
+export default {
+    GOOGLE_API_KEY : "YOUR API KEY"
+};
+```
+
+Build the assets using npm
 ```
 $ cd projects_dir/
 $ npm run build
 ```
-## Getting Started
-Project still under developpement, will be available soon.
+
+You can run the available fixtures to generate somme dummy data for testing (Dummy stores and dummy store types)
+```
+$ cd projects_dir/
+$ php bin/console doctrine:fixtures:load --group=store
+``` 
+Or you can create your own stores and store types in the database.
+
+Some server configuration may be needed for the deployement 
+You can follow the [Symfony doplyement guide](https://symfony.com/doc/current/deployment.html) to get it done.
+## Description
+The application is a single page application where you can create an account and login and vizualize a list of nearby stores. You can add the stores you like to your favourites list and dislike store you don't like. You can even see you the stores location on the map. 
+
+## TODO 
+A lot of features still can be added to the project like : 
+* Admin store creation 
+* Admin store management (Activation and Deactivation) 
+* Store pages 
+* User profile page
+* ...
+These features and many others may be added in a near future.
