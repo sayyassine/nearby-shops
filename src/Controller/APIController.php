@@ -319,7 +319,7 @@ class APIController extends AbstractController
              * if($dislike->getDislikeDate() > new \DateTimeImmutable($this->getUser()->getDislikeTime()){
              **/
             if($dislike->getDislikeDate() < new \DateTimeImmutable("-2 hours")){
-                $this->getUser()->removeDislikeStore($dislike);
+                $this->getUser()->removeDislikedStore($dislike);
             }
         }
 

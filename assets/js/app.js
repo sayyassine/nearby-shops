@@ -30,7 +30,7 @@ const vuexLocal = new VuexPersistence({
     storage: window.localStorage
 });
 
-let plugins = [vuexLocal.plugin];
+let plugins = [];
 if(process.env.NODE_ENV === "development"){
     plugins.push(createLogger()) ;
 }

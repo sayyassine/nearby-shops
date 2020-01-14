@@ -86,6 +86,13 @@
                                     this.$store.commit("add_liked_stores", response.stores);
                                 this.$router.push("/stores")
                             }.bind(this)
+                        );
+                        this.$post("/stores/disliked").then(
+                            function (response) {
+                                if(!response.error)
+                                    this.$store.commit("add_disliked_stores", response.stores);
+
+                            }.bind(this)
                         )
 
                     }else if(response.error){

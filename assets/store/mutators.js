@@ -1,7 +1,7 @@
 export default {
     // remove the logged out user from the state
     logout (state) {
-        state.user = null;
+        state.user = {};
         state.liked_stores = [];
         state.disliked_stores = [];
     },
