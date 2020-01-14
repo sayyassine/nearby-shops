@@ -7,7 +7,7 @@ import VuexPersistence from 'vuex-persist'
 import createLogger from 'vuex/dist/logger'
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeart, faThumbsDown ,faFilter, faMapPin ,faStore ,faSignInAlt} from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faThumbsDown ,faFilter, faMapPin ,faStore ,faSignInAlt , faMap ,faList} from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular, faThumbsDown as faThumbsDownRegular ,  } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from '../layout/App.vue' ;
@@ -18,6 +18,9 @@ import VueAxios from 'vue-plugin-axios'
 import routes from '../utils/routes'
 import configured_axios from '../utils/axios'
 import model from '../store/model'
+import keys from '../config/keys'
+import * as VueGoogleMaps from 'vue2-google-maps'
+
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -33,7 +36,8 @@ if(process.env.NODE_ENV === "development"){
 }
 
 //adding fontawesome icons
-library.add(faHeart , faHeartRegular, faThumbsDown ,faThumbsDownRegular ,faFilter ,faMapPin ,faStore,faSignInAlt);
+library.add(faHeart , faHeartRegular, faThumbsDown ,faThumbsDownRegular ,
+    faFilter ,faMapPin ,faStore,faSignInAlt, faMap ,faList);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 
@@ -52,7 +56,13 @@ Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 // the second parameter an object containing the axios object and requests configuration
 Vue.use(VueAxios,configured_axios(store));
+//
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: keys.GOOGLE_API_KEY,
 
+    }
+});
 
 // loading the routes and using them
 // passing the store to the routes to check user permissions before redirecting him

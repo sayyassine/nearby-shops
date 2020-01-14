@@ -1,3 +1,3 @@
 export default {
-    BASE_URL : "http://localhost:8000/api"
-}
+    GOOGLE_API_KEY : "AIzaSyAKl335BdDzlpYY5JdDmm4YnkU2juMrACM"
+};

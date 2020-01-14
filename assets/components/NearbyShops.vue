@@ -14,6 +14,10 @@
                     </h1>
 
                     <div class="d-flex">
+                        <b-button-group variant="primary" class="m-2">
+                            <b-button @click="show_on_map=true" :disabled="show_on_map"><font-awesome-icon icon="map"/></b-button>
+                            <b-button @click="show_on_map=false" :disabled="!show_on_map" show_on_map><font-awesome-icon icon="list"/></b-button>
+                        </b-button-group>
                         <!--filtering form-->
                         <b-dropdown id="dropdown-form" variant="primary" dropleft ref="dropdown" class="m-2">
                             <template v-slot:button-content>
@@ -79,8 +83,33 @@
 
                 </div>
                 <div class="row">
-                    <store :object="st.store" :distance="st.distance" :key="st.id" v-for="st in stores" >
-                    </store>
+                    <template v-if="!show_on_map" >
+                        <store :object="st.store" :distance="st.distance" :key="st.id" v-for="st in stores" >
+                        </store>
+                    </template>
+                    <GmapMap
+                            v-else
+                            :center="{lat:location.lat , lng:location.long}"
+                            :zoom="10"
+                            map-type-id="terrain"
+                            style="width: 100%; min-height: 500px"
+                    >
+                        <GmapMarker
+                                icon="/images/location_90.png"
+                                :position="{lng : location.long, lat : location.lat}"
+                                :clickable="true"
+                                :draggable="false"
+                                @click="center=st.store.location"
+                        />
+                        <GmapMarker
+                                v-for="st in stores"
+                                :key="st.store.id"
+                                :position="{lng : st.store.longitude , lat : st.store.latitude }"
+                                :clickable="true"
+                                :draggable="false"
+                                @click="center=st.store.location"
+                        />
+                    </GmapMap>
 
                     <!--error page-->
                     <div class="d-flex justify-content-center align-items-center" v-if="!loading && no_stores" >
@@ -118,7 +147,6 @@
     import Loading from 'vue-loading-overlay'
     import 'vue-loading-overlay/dist/vue-loading.css';
     import FormOptions from "bootstrap-vue/esm/mixins/form-options";
-
     export default {
         name: "NearbyShops",
         components: {FormOptions, Store, Loading},
@@ -161,6 +189,8 @@
         },
         data : function () {
             return {
+
+                show_on_map : false,
                 //object containing last applied filter values
                 applied_filters : null ,
                 loading : false ,
@@ -179,7 +209,8 @@
                 //list of all store types (used in filtering)
                 store_types : [],
                 //Maximal search distance
-                max_distance : null
+                max_distance : null,
+
             }
         },
         created() {
