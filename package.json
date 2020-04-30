@@ -26,7 +26,7 @@
         "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.1.0",
         "es6-promise": "^4.2.8",
-        "jquery": "^1.12.4",
+        "jquery": "^3.5.0",
         "vue": "^2.6.11",
         "vue-loading-overlay": "^3.2.0",
         "vue-plugin-axios": "^1.0.14",
